@@ -15,6 +15,8 @@ def is_file_supported(file):
     supported_formats = get_supported_formats()
     ext = pathlib.Path(file).suffix
     ext = ext[1:]
+    if ext == "jpg":
+        ext = "jpeg"
     return ext in supported_formats
 
 
