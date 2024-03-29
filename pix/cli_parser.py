@@ -1,16 +1,10 @@
 import argparse
-import json
 
 from pix import utils
 
 
-def get_manifest():
-    with open("pix/manifest.json", "r") as f:
-        return json.load(f)
-
-
 def get_parser():
-    manifest = get_manifest()
+    manifest = utils.get_manifest()
 
     parser = argparse.ArgumentParser(
         description=f"{manifest['description']} ({manifest['version']})"

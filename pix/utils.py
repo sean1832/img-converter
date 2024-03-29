@@ -1,3 +1,4 @@
+import json
 import pathlib
 
 
@@ -15,3 +16,10 @@ def is_file_supported(file):
     ext = pathlib.Path(file).suffix
     ext = ext[1:]
     return ext in supported_formats
+
+
+def get_manifest():
+    root_dir = pathlib.Path(__file__).parent.absolute()
+    manifest_path = pathlib.Path.joinpath(root_dir, "manifest.json")
+    with open(manifest_path, "r") as f:
+        return json.load(f)
