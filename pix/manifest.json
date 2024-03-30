@@ -1,6 +1,6 @@
 {
     "name": "pix",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "sean1832",
     "description": "CLI tool for image manipulation",
     "url": "https://github.com/sean1832/pixify"

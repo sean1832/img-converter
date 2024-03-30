@@ -5,6 +5,7 @@ a simple image manipulation tool for the terminal
 - [x] Resize
 - [x] Crop
 - [x] Convert
+- [x] Prune (remove low-quality images)
 - [ ] Rotate
 - [ ] Flip
 - [ ] Watermark

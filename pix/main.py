@@ -1,7 +1,7 @@
 import pathlib
 import traceback
 
-from pix import cli_parser, converter, croper, resizer
+from pix import cli_parser, converter, croper, prune, resizer
 
 
 def get_io_paths(args):
@@ -81,6 +81,16 @@ def crop_cmd(args):
         raise FileNotFoundError(f"`{args.input}` not found.")
 
 
+def prune_cmd(args):
+    file_input = pathlib.Path(args.input)
+    if file_input.is_file():
+        prune.prune_image(file_input, args.resolution, args.dry_run)
+    elif file_input.is_dir():
+        prune.prune_images(file_input, args.resolution, args.dry_run)
+    else:
+        raise FileNotFoundError(f"`{args.input}` not found.")
+
+
 def main():
     try:
         parser = cli_parser.get_parser()
@@ -100,6 +110,10 @@ def main():
         # Crop command
         elif args.command == "crop":
             crop_cmd(args)
+
+        # Prune command
+        elif args.command == "prune":
+            prune_cmd(args)
         print("Done!")
     except FileNotFoundError as e:
         print("File not found:", e)
