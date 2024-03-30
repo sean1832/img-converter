@@ -90,6 +90,16 @@ pix crop input [OPTIONS]
 - `--size`: Exact size and position as WxH+X+Y (e.g., 800x600+100+150).
 - `--align`: Alignment (top, bottom, left, right, center).
 
+#### Prune
+```sh
+pix prune input [OPTIONS]
+```
+
+**Options:**
+- `input`: Input image or directory.
+- `-r`, `--resolution`: Minimum resolution (e.g. 512x512).
+- `--dry-run`: List files to be removed without deleting them.
+
 ## License
 [Apache-2.0](LICENSE)
 
