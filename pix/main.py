@@ -1,7 +1,10 @@
+import glob
 import pathlib
 import traceback
 
-from pix import cli_parser, converter, croper, prune, resizer
+import pyexiv2
+
+from pix import cli_parser, converter, croper, prune, resizer, utils
 
 
 def get_io_paths(args):
@@ -49,9 +52,7 @@ def resize_cmd(args):
             args.overwrite,
         )
     elif file_input.is_dir():
-        resizer.resize_images(
-            file_input, file_output, args.size, args.scale, args.overwrite
-        )
+        resizer.resize_images(file_input, file_output, args.size, args.scale, args.overwrite)
     else:
         raise FileNotFoundError(f"`{args.input}` not found.")
 
@@ -91,6 +92,30 @@ def prune_cmd(args):
         raise FileNotFoundError(f"`{args.input}` not found.")
 
 
+def blip_cmd(args):
+    from pix.blip import Blip
+
+    file_input = pathlib.Path(args.input).absolute()
+    if file_input.is_dir():
+        file_input = file_input.joinpath("*.*")
+    inputs = glob.glob(str(file_input))  # wildcard
+    # filter out non-image files
+    inputs = [i for i in inputs if utils.is_file_supported(i)]
+
+    blip = Blip(args.large, args.cpu, args.blip2)
+
+    caption_dicts = blip.caption_image(
+        inputs, args.token, args.seed, args.temperature, args.batch, args.prompt, args.question
+    )
+    for image, caption_dict in zip(inputs, caption_dicts):
+        caption = caption_dict[0]["generated_text"]
+        if args.metadata:
+            with pyexiv2.Image(image) as img:
+                img.modify_exif({"Exif.Image.XPComment": caption})
+
+        print(f"\n{image} - {caption}")
+
+
 def main():
     try:
         parser = cli_parser.get_parser()
@@ -114,6 +139,11 @@ def main():
         # Prune command
         elif args.command == "prune":
             prune_cmd(args)
+
+        # Blip command
+        elif args.command == "blip":
+            blip_cmd(args)
+
         print("Done!")
     except FileNotFoundError as e:
         print("File not found:", e)

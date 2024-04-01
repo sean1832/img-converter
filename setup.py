@@ -20,7 +20,15 @@ setup(
             "manifest.json",
         ]
     },
-    install_requires=["pillow", "pillow-avif-plugin", "pillow-heif"],
+    install_requires=[
+        "pillow",
+        "pillow-avif-plugin",
+        "pillow-heif",
+        "transformers>=4.39.2",
+        "torch>=2.2.2",
+        "termcolor",
+        "pyexiv2",
+    ],
     entry_points={
         "console_scripts": [
             "pix = pix.main:main",
