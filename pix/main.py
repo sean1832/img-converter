@@ -105,15 +105,15 @@ def blip_cmd(args):
     blip = Blip(args.large, args.cpu, args.blip2)
 
     caption_dicts = blip.caption_image(
-        inputs, args.token, args.seed, args.temperature, args.batch, args.prompt, args.question
+        inputs, args.token, args.seed, args.temperature, args.batch, args.prompt
     )
     for image, caption_dict in zip(inputs, caption_dicts):
         caption = caption_dict[0]["generated_text"]
         if args.metadata:
             with pyexiv2.Image(image) as img:
                 img.modify_exif({"Exif.Image.XPComment": caption})
-
-        print(f"\n{image} - {caption}")
+        if args.verbose:
+            print(f"\n{image} - {caption}")
 
 
 def main():
