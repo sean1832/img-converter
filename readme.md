@@ -6,13 +6,9 @@ a simple image manipulation tool for the terminal
 - [x] Crop
 - [x] Convert
 - [x] Prune (remove low-quality images)
-- [ ] Rotate
-- [ ] Flip
+- [x] Caption (add text & metadata to images)
 - [ ] Watermark
-- [ ] Text
-- [ ] Blur
 - [ ] Grayscale
-- [ ] Invert
 
 ## Installation
 ```bash
@@ -29,76 +25,104 @@ pip install .
 pix [COMMAND] [OPTIONS]
 ```
 
-Replace `[COMMAND]` with the desired operation (`convert`, `resize`, or `crop`) and `[OPTIONS]` with the relevant options for your command.
+Replace `[COMMAND]` with the desired operation and `[OPTIONS]` with the relevant options for your command.
 
 ### Global Options
 
 - `-v`, `--version`: Display the version of the tool.
-- `command`: Specify the command to execute (`convert`, `resize`, or `crop`).
+- `-h`, `--help`: Display the help message.
 
 ### Commands
 
-#### Convert
+| Command | Description                                      |
+|---------|--------------------------------------------------|
+| convert | Converts images to a different format            |
+| resize  | Resizes images                                   |
+| crop    | Crops images                                     |
+| prune   | Removes images smaller than specified resolution|
+| caption | Captions image or a directory of images          |
 
-Converts images to a different format.
+### Options for Each Command
+
+#### Convert
+Converts images to a different formats. Currently supports `JPEG`, `PNG`, `WEBP`, `TIFF`, `ICO`, `AVIF`, `HEIF`, `BMP`.
 
 ```sh
-pix convert input [OPTIONS]
+pix convert [OPTIONS]
 ```
 
-**Options:**
-
-- `input`: Input image or directory.
-- `-o`, `--output`: Output image or directory (default: current directory).
-- `-f`, `--format`: Output format (supported formats will be listed).
-- `-q`, `--quality`: Output quality (0-100, default: 95).
-- `--no-optimize`: Disable optimization.
-- `--overwrite`: Overwrite existing files.
-- `--prefix`: Prefix for the output file name.
-- `--surfix`: Suffix for the output file name.
+| Option        | Input Type | Description                                | Default     |
+|---------------|------------|--------------------------------------------|-------------|
+| input         | String     | Input image or directory                   | N/A         |
+| -o, --output  | String     | Output image or directory                  | Current dir.|
+| -f, --format  | String     | Output format (supported formats listed)   | N/A         |
+| -q, --quality | Integer    | Output quality (0-100)                     | 95          |
+| --no-optimize | Flag       | Disable optimization                       | N/A         |
+| --overwrite   | Flag       | Overwrite existing files                   | N/A         |
+| --prefix      | String     | Prefix for the output file name            | ""          |
+| --surfix      | String     | Suffix for the output file name            | ""          |
 
 #### Resize
-
-Resizes images.
-
 ```sh
-pix resize input [OPTIONS]
+pix resize [OPTIONS]
 ```
 
-**Options:**
 
-- `input`: Input image or directory.
-- `-o`, `--output`: Output image or directory (default: current directory).
-- `--overwrite`: Overwrite existing files.
-- `--size`: Output size in width x height format (WxH).
-- `--scale`: Output scale (0.0-1.0).
+| Option       | Input Type | Description                      | Default     |
+|--------------|------------|----------------------------------|-------------|
+| input        | String     | Input image or directory         | N/A         |
+| -o, --output | String     | Output image or directory        | Current dir.|
+| --overwrite  | Flag       | Overwrite existing files         | N/A         |
+| --size       | String     | Output size (WxH)                | N/A         |
+| --scale      | Float      | Output scale (0.0-1.0)           | N/A         |
 
 #### Crop
-
-Crops images.
-
 ```sh
-pix crop input [OPTIONS]
+pix crop [OPTIONS]
 ```
 
-**Options:**
 
-- `input`: Input image or directory.
-- `-o`, `--output`: Output image or directory (default: current directory).
-- `--overwrite`: Overwrite existing files.
-- `--ratio`: Aspect ratio (W:H), to be used with `--align`.
-- `--size`: Exact size and position as WxH+X+Y (e.g., 800x600+100+150).
-- `--align`: Alignment (top, bottom, left, right, center).
+| Option       | Input Type | Description                                        | Default     |
+|--------------|------------|----------------------------------------------------|-------------|
+| input        | String     | Input image or directory                           | N/A         |
+| -o, --output | String     | Output image or directory                          | Current dir.|
+| --overwrite  | Flag       | Overwrite existing files                           | N/A         |
+| --ratio      | String     | Aspect ratio (W:H), combined with `--align`        | N/A         |
+| --size       | String     | Exact size and position as WxH+X+Y                 | N/A         |
+| --align      | String     | Alignment (top, bottom, left, right, center)       | N/A         |
 
 #### Prune
 ```sh
-pix prune input [OPTIONS]
+pix prune [OPTIONS]
 ```
 
-**Options:**
-- `input`: Input image or directory.
-- `-r`, `--resolution`: Minimum resolution (e.g. 512x512).
-- `--dry-run`: List files to be removed without deleting them.
+
+| Option         | Input Type | Description                                       | Default |
+|----------------|------------|---------------------------------------------------|---------|
+| input          | String     | Input image or directory                          | N/A     |
+| -r, --resolution | String   | Minimum resolution (WxH)                         | N/A     |
+| --dry-run      | Flag       | List files to be removed without deleting them    | N/A     |
+
+#### Caption
+```sh
+pix caption [OPTIONS]
+```
+
+| Option          | Input Type | Description                                | Default |
+|-----------------|------------|--------------------------------------------|---------|
+| input           | String     | Input image or directory                   | N/A     |
+| -t, --token     | Integer    | Max token length for captioning            | 32      |
+| -b, --batch     | Integer    | Batch size for captioning                  | 1       |
+| -p, --prompt    | String     | Prompt for captioning                      | N/A     |
+| --temperature   | Float      | Temperature for captioning                 | 1.0     |
+| --seed          | Integer    | Seed for reproducibility                   | N/A     |
+| --large         | Flag       | Use the large model                        | N/A     |
+| --cpu           | Flag       | Use CPU instead of GPU                     | N/A     |
+| --metadata      | Flag       | Write caption as metadata for the image    | N/A     |
+| --blip2         | Flag       | Use Blip2 model for captioning             | N/A     |
+| --verbose       | Flag       | Print verbose output                       | N/A     |
+
+
 
 ## License
 [Apache-2.0](LICENSE)
