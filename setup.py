@@ -3,7 +3,7 @@ import json
 from setuptools import find_packages, setup
 
 manifest = json.load(open("pix/manifest.json", "r"))
-with open("README.md", "r") as f:
+with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 setup(
     name=manifest["name"],
