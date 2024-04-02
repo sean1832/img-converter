@@ -28,6 +28,7 @@ setup(
         "torch>=2.2.2",
         "termcolor",
         "pyexiv2",
+        "tqdm",
     ],
     entry_points={
         "console_scripts": [
