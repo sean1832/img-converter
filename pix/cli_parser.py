@@ -46,5 +46,20 @@ def get_parser():
     prune_parser.add_argument("input", type=str, help="Input image or directory")
     prune_parser.add_argument("-r", "--resolution", type=str, help="Minimum resolution as WxH. Images smaller than this will be removed.")
     prune_parser.add_argument("--dry-run", action="store_true", help="Perform a dry run without deleting files.")
+
+    # blip command
+    blip_parser = subparser.add_parser("caption", help="Caption on images")
+    blip_parser.add_argument("input", type=str, help="Input image or directory")
+    blip_parser.add_argument("-t", "--token", type=int, help="Max token length for captioning", default=32)
+    blip_parser.add_argument("-b", "--batch", type=int, help="Batch size for captioning", default=1)
+    blip_parser.add_argument("-p", "--prompt", type=str, help="Prompt for captioning")
+    blip_parser.add_argument("--temperature", type=float, help="Temperature for captioning", default=1.0)
+    blip_parser.add_argument("--seed", type=int, help="Seed for reproducibility")
+    blip_parser.add_argument("--large", action="store_true", help="Use the large model")
+    blip_parser.add_argument("--cpu", action="store_true", help="Use CPU instead of GPU")
+    blip_parser.add_argument("--metadata", action="store_true", help="Write caption as metadata for image")
+    blip_parser.add_argument("--blip2", action="store_true", help="Use Blip2 model for captioning")
+    blip_parser.add_argument("--verbose", action="store_true", help="Print verbose output")
+
     return parser
 # fmt: on
