@@ -48,7 +48,7 @@ def get_parser():
     prune_parser.add_argument("--dry-run", action="store_true", help="Perform a dry run without deleting files.")
 
     # blip command
-    blip_parser = subparser.add_parser("blip", help="Blip caption on images")
+    blip_parser = subparser.add_parser("caption", help="Caption on images")
     blip_parser.add_argument("input", type=str, help="Input image or directory")
     blip_parser.add_argument("-t", "--token", type=int, help="Max token length for captioning", default=32)
     blip_parser.add_argument("-b", "--batch", type=int, help="Batch size for captioning", default=1)

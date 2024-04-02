@@ -92,8 +92,8 @@ def prune_cmd(args):
         raise FileNotFoundError(f"`{args.input}` not found.")
 
 
-def blip_cmd(args):
-    from pix.blip import Blip
+def caption_cmd(args):
+    from pix.caption import Blip
 
     file_input = pathlib.Path(args.input).absolute()
     if file_input.is_dir():
@@ -141,8 +141,8 @@ def main():
             prune_cmd(args)
 
         # Blip command
-        elif args.command == "blip":
-            blip_cmd(args)
+        elif args.command == "caption":
+            caption_cmd(args)
 
         print("Done!")
     except FileNotFoundError as e:
