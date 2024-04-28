@@ -122,27 +122,9 @@ pix prune [OPTIONS]
 | `-r`, `--resolution` | String   | Minimum resolution (WxH)                         | N/A     |
 | `--dry-run`      | Flag       | List files to be removed without deleting them    | N/A     |
 
-#### Caption
-Create text description to images or directories of images using machine learning models. Currently supports [BLIP](https://huggingface.co/Salesforce/blip-image-captioning-base) and [BLIP2](https://huggingface.co/Salesforce/blip2-opt-2.7b) models. 
->The `BLIP2` model is more accurate but slower than the `BLIP` model. The `BLIP2` model is recommended for better results.
+#### ~~Caption~~ 
+(Removed this feature, implemented in a separate tool [zz-img-caption](https://github.com/sean1832/zz-img-caption))
 
-```sh
-pix caption [OPTIONS]
-```
-
-| Option          | Input Type | Description                                | Default |
-|-----------------|------------|--------------------------------------------|---------|
-| `input`           | String     | Input image or directory                   | N/A     |
-| `-t`, `--token`     | Integer    | Max token length for captioning            | 32      |
-| `-b`, `--batch`     | Integer    | Batch size for captioning (increase speed but also increase memory usage. CPU mode is capped to `2`.)                  | 1       |
-| `-p`, `--prompt`    | String     | Prompt for captioning                      | N/A     |
-| `--temperature`   | Float      | Temperature for captioning                 | 1.0     |
-| `--seed`          | Integer    | Seed for reproducibility                   | N/A     |
-| `--large`         | Flag       | Use the large model                        | N/A     |
-| `--cpu`           | Flag       | Use CPU instead of GPU                     | N/A     |
-| `--metadata`      | Flag       | Write caption as metadata for the image    | N/A     |
-| `--blip2`         | Flag       | Use Blip2 model for captioning (slower but results better)| N/A|
-| `--verbose`       | Flag       | Print verbose output                       | N/A     |
 
 
 
