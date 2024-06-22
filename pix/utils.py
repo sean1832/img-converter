@@ -2,11 +2,13 @@ import json
 import pathlib
 
 
-def get_supported_formats(str=False):
+def get_supported_formats(str=False, transparent=False):
 
     supported_formats = ["png", "jpeg", "webp", "avif", "heif", "tiff", "bmp", "ico"]
     if str:
         return ", ".join(supported_formats)
+    if transparent:
+        return ["png", "webp", "avif", "heif"]
     else:
         return supported_formats
 

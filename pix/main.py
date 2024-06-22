@@ -21,6 +21,7 @@ def convert_cmd(args):
             args.quality,
             not args.no_optimize,
             args.overwrite,
+            args.transparent,
         )
     elif file_input.is_dir():
         converter.convert_files(
@@ -32,6 +33,7 @@ def convert_cmd(args):
             args.quality,
             not args.no_optimize,
             args.overwrite,
+            args.transparent,
         )
     else:
         raise FileNotFoundError(f"`{args.input}` not found.")
@@ -87,7 +89,6 @@ def prune_cmd(args):
         prune.prune_images(file_input, args.resolution, args.dry_run)
     else:
         raise FileNotFoundError(f"`{args.input}` not found.")
-
 
 
 def main():

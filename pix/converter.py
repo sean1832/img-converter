@@ -5,7 +5,7 @@ import pillow_avif  # noqa
 from PIL import Image
 from pillow_heif import register_heif_opener
 
-from pix.utils import is_file_supported
+from pix.utils import get_supported_formats, is_file_supported
 
 
 def _validate_target_format(out, target_format):
@@ -34,14 +34,14 @@ def convert_file(
     quality=95,
     optimize=True,
     overwrite=False,
+    transparent=False,
 ):
     """
     Converts an input file to a specified target format and saves it to the specified output location.
     """
     register_heif_opener()
 
-    # Load and convert the image
-    im = Image.open(input_file).convert("RGB")
+    # prepare output file and directory
     output_filename, output_ext = _get_filename_and_extension(output_file)
     if output_ext == "jpg":
         output_ext = "jpeg"
@@ -50,13 +50,28 @@ def convert_file(
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
+    # Load image
+    im = Image.open(input_file)
+    # Preserve transparency if the image format supports
+    if transparent:
+        if output_ext in get_supported_formats(transparent=True):
+            im = im.convert("RGBA")
+        else:
+            print(f"Transparency is not supported for {output_ext}. Converting to RGB.")
+            im = im.convert("RGB")
+            transparent = False
+    else:
+        im = im.convert("RGB")
+
     # Check if the output file already exists
     if output_path.exists() and not overwrite:
         print(f"`{output_path}` already exists. Use `--overwrite` to replace.")
         return
 
     im.save(output_path, format=output_ext, quality=quality, optimize=optimize)
-    print(f"Image saved to {output_path}, quality: {quality}, optimize: {optimize}")
+    print(
+        f"Image saved to {output_path}, quality: {quality}, optimize: {optimize}, transparent: {transparent}"
+    )
 
 
 def convert_files(
@@ -68,6 +83,7 @@ def convert_files(
     quality=95,
     optimize=True,
     overwrite=False,
+    transparent=False,
 ):
     """
     Converts a list of input files to a specified target format and saves them to the specified output location.
@@ -87,5 +103,5 @@ def convert_files(
                 return
             output_file = pathlib.Path(f"{out_dir}/{input_file_name}.{target_format}")
             convert_file(
-                file, output_file, prefix, surfix, quality, optimize, overwrite
+                file, output_file, prefix, surfix, quality, optimize, overwrite, transparent
             )
